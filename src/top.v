@@ -23,7 +23,7 @@ module tt_um_algofoogle_reciprocal(
     // Dummy implementation for now, just to make it synth:
     reciprocal reciprocal(
         .i_data({ui_in,uio_in,clk,ui_in[7:1]}),
-        .i_abs(1),
+        .i_abs(1'b1),
         .o_data({a,b,c}),
         .o_sat(sat)
     );
