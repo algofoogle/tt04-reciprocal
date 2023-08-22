@@ -15,14 +15,35 @@ module tt_um_algofoogle_reciprocal(
     assign uio_oe = 8'b0000_0000;
     assign uio_out = 8'b0000_0000;
 
+    reg [23:0] num_in;
+    wire reset = ~rst_n;
+    reg [2:0] state;
+    reg [7:0] part_out;
+    assign uo_out = part_out;
+
+    always @(posedge clk) begin
+        if (reset) begin
+            num_in <= 0;
+            part_out <= 0;
+            state <= 0;
+        end else begin
+            state <= state + 1;
+            case (state)
+                0, 1, 2: num_in <= {num_in[15:0],ui_in};
+                3: part_out <= a;
+                4: part_out <= b;
+                5: part_out <= c;
+                // default: // Do nothing.
+            endcase
+        end
+    end
+
     wire [7:0] a,b,c;
     wire sat;
 
-    assign uo_out = a+(b^{8{sat}})+c;
-
     // Dummy implementation for now, just to make it synth:
     reciprocal reciprocal(
-        .i_data({ui_in,uio_in,ui_in[0],ui_in[7:1]}),
+        .i_data(num_in),
         .i_abs(1'b1),
         .o_data({a,b,c}),
         .o_sat(sat)

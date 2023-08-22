@@ -25,6 +25,7 @@ module reciprocal #(
   localparam SCALER = 1<<N;
   localparam real FSCALER = SCALER;
   localparam [M-1:-N] n1466 = 1.466*FSCALER+`ROUNDING_FIX;    // 1.466 in QM.N
+  localparam [M-1:-N] test1466 = $rtoi(1.466*FSCALER);
 
   // Find raw fixed-point value representing 1.0012:
   // localparam integer nd = 1.0012*(2.0**N);
@@ -38,7 +39,7 @@ module reciprocal #(
   initial begin
     //NOTE: In Quartus, at compile-time, this should hopefully spit out the params from above
     // in the compilation log:
-    $display("reciprocal params for Q%0d.%0d:  n1466=%X, n10012=%X, nSat=%X", M, N, n1466, n10012, nSat);
+    $display("reciprocal params for Q%0d.%0d:  n1466=%X n10012=%X nSat=%X test1466=%X", M, N, n1466, n10012, nSat, test1466);
   end
 
   /*
